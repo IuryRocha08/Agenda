@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!--Visão-->
+	<meta charset="UTF-8"/>
+	<title>Agenda</title>
+	<!--script src="_js/soma.js"></script-->
+</head>
+<body>
+	<header>
+		<h1>Pessoas</h1>
+		<nav>
+			<ul class="menu">
+				<li><a href="index.html">Início</a></li>
+			</ul>
+		</nav>
+	</header>	
+	<main>
+		<form onsubmit="inserir(); return false" id="form_soma" method="post">
+			<div class="row">
+				<div class="form-group col-lg-4">
+					<label for="nome"> <b>Nome:</b> </label> <p> 
+					<input id="nome" type="text" name="nome" placeholder="Insira seu nome">
+				</div> <p>
+				<label for="telefone"> <b>Telefone:</b> </label> <p> 
+				<input id="telefone" type="int" name="telefone" placeholder="Insira seu telefone"> <p> 
+				<button type="submit" value="Enviar">Enviar</button> <p> 
+			</div>
+		</form>
+			<button onclick="listar()">Listar</button>
+			<table style="display: none;">
+				<tr> 
+					<th>Nome</th>
+					<th>Telefone</th>
+				</tr> 
+				<tbody id="resultado"></tbody>
+			</table>
+	</main>
+	<script>
+		function listar() {
+			var resultado = document.getElementById('resultado');
+			resultado.parentElement.style.display = 'block';
+			resultado.innerHTML = "Carregando...";
+			fetch('/api/v1/pessoas').then(async function (pessoas) {
+				resultado.innerHTML = "";
+				for (var pessoa of await pessoas.json()) {
+					var linha = "<tr>";
+					linha += "	<td>" + pessoa.nome + "</td>"; 
+					linha += "	<td>" + pessoa.telefone + "</td>"; 
+					linha += "</tr>";
+					resultado.innerHTML += linha;
+				}
+			});
+		}
+		function inserir() {
+			const pessoa = {
+				nome: document.getElementById('nome').value,
+				telefone: document.getElementById('telefone').value
+			};
+			fetch('/api/v1/pessoas', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(pessoa)
+			}).then(async function (pessoa) {
+				var resultado = document.getElementById('resultado');
+				resultado.innerHTML = pessoa;
+				
+				window.x=pessoa;
+			});
+		}
+	</script>
+</body>
+</html>
