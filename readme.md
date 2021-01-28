@@ -18,4 +18,4 @@ docker-compose up
 ```
 
 # Acesso 
-http://localhost:5000/pessoas.html
+http://localhost:5000/index.html
