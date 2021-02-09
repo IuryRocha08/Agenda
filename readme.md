@@ -18,4 +18,4 @@ docker-compose up
 ```
 
 # Acesso 
-http://localhost:5000/index.html
+http://localhost:80/index.html
