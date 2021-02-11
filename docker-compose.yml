@@ -25,7 +25,7 @@ services:
         volumes:
             - app:/home/node/app
         ports:
-            - "9001:80"
+            - "80:5000"
         depends_on:  
             - db
 volumes:
